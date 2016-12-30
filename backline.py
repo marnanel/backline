@@ -13,21 +13,16 @@ class Backline(object):
 	def get(self, blocking=False):
 
 		if blocking:
-			print 'Get blocking...'
 			self._condition.acquire()
 			self._condition.wait()
-			print 'Get unblocking, with', self._line
 			self._condition.release()
 
 		return self._line
 
 	def set(self, s):
-		print 'Set blocking...'
 		self._condition.acquire()
-		print 'Setting to', s
 		self._line = s
 		self._condition.notify_all()
-		print 'Set unblocking...'
 		self._condition.release()
 
 backline = Backline()
@@ -49,21 +44,13 @@ class BacklineHandler(SimpleHTTPRequestHandler):
 
 	def do_GET(self):
 
-		# dispatcher:
-		#   - /line gets line
-		#   - /line?blocking gets line, blocking
-		#   - "/" gets index.html from files dir
-		#   - anything else gets named file from files dir
-
 		if self.path.startswith('/line'):
 			self._serve_backline('blocking' in self.path)
 		else:
 			SimpleHTTPRequestHandler.do_GET(self)
 
 	def do_POST(self):
-		# dispatcher:
-		#   - /line and /line?blocking set line
-		#   - all others fail
+
 		if self.path.startswith('/line'):
 
 			form = cgi.FieldStorage(
@@ -81,11 +68,10 @@ class BacklineHandler(SimpleHTTPRequestHandler):
 			self._serve_backline(False)
 			
 		else:
-			self.send_error(410, "Forbidden")
+			self.send_error(410, "forbidden")
 			self.end_headers()
 
 class BacklineServer(ThreadingMixIn, HTTPServer):
-	"""Handle requests in a separate thread."""
 
 	def server_bind(self):
 		HTTPServer.server_bind(self)

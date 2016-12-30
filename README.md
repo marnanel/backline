@@ -1,6 +1,6 @@
 Backline provides a simple HTML-based display for use on a server during testing.
 
-It's implemented a Python http server which can serve:
+It's implemented as a Python http server which can serve:
    - any files in the current directory (as with SimpleHTTPServer)
    - a single string, at /line/, which can be altered with POST
 

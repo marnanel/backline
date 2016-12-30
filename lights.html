@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Lights</title>
+<style>
+
+html, body {
+	background-color: #000;
+	color: #fff;
+}
+
+div {
+	position: absolute;
+	width: 30%;
+	top: 10%;
+	background-size: contain;
+	background-image: url("off.png");
+	text-align: center;
+}
+
+/* fix aspect ratio */
+div:before {
+	content: "";
+	float: left;
+	padding-bottom: 100%; /* == aspect ratio */
+}
+
+#red {
+	background-color: #f00;
+	left: 0%;
+}
+
+#green {
+	background-color: #0f0;
+	left: 35%;
+}
+
+#blue {
+	background-color: #00f;
+	left: 70%;
+}
+
+.red #red     { background-image: url("on.png"); }
+.green #green { background-image: url("on.png"); }
+.blue #blue   { background-image: url("on.png"); }
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+
+// we put in a second's delay, for rate limiting
+var DELAY=1000;
+
+function update_root_element(newClass) {
+	$(":root").attr('class', newClass);
+
+	// and go round again...
+        setTimeout(fetch_from_server, DELAY);
+}
+
+function fetch_from_server() {
+	$.get(
+		"/line/blocking/",
+		update_root_element
+	);
+}
+
+$(fetch_from_server);
+
+</script>
+</head>
+<body>
+<div id="red">red</div>
+<div id="green">green</div>
+<div id="blue">blue</div>
+</body></html>

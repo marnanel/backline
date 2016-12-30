@@ -9,8 +9,11 @@ The string at /line/ should be used as the class of the root HTML element.
 A call to /line/blocking will block until the line is updated.
 
 The example shipped with Backline displays three lightbulbs,
-labelled "red", "green", and "blue". You can display them
-by running Backline and launching
+labelled "red", "green", and "blue".
+
+![Screenshot](screenshot.png)
+
+You can display them by running Backline and launching
 
   http://localhost:8080/lights.html
 
